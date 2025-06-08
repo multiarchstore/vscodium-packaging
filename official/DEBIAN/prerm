@@ -4,4 +4,4 @@
 # Licensed under the MIT License. See License.txt in the project root for license information.
 
 # Deregister code from the alternatives system
-update-alternatives --remove editor /usr/bin/code
+update-alternatives --remove editor /usr/bin/codium
