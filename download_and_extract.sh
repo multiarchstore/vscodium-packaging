@@ -31,14 +31,14 @@ EXTRACTED_DIR="${TARBALL%.tar.gz}"
 
 # 创建下载缓存目录
 mkdir -p "$DOWNLOAD_DIR"
-mkdir -p "$EXTRACTED_DIR"
+mkdir -p "$DOWNLOAD_DIR/$EXTRACTED_DIR"
 
 # 下载并解压
 echo "Downloading VSCodium for $ARCH: $TARBALL_URL"
 wget "$TARBALL_URL" -O "$DOWNLOAD_DIR/$TARBALL"
 
 echo "Extracting to $DOWNLOAD_DIR/$EXTRACTED_DIR"
-tar -xzvf $DOWNLOAD_DIR/$TARBALL -C $(realpath "$EXTRACTED_DIR")
+tar -xzvf $DOWNLOAD_DIR/$TARBALL -C "$DOWNLOAD_DIR/$EXTRACTED_DIR"
 
 # Create Temp Install Dir
 INSTALL_DIR=".install_dir"
@@ -56,11 +56,11 @@ sed -i "s/%TBD_PACKAGE_VERSION%/$version/g" "$INSTALL_DIR/DEBIAN/control"
 sed -i "s/%TBD_PACKAGE_ARCH%/$ARCH/g" "$INSTALL_DIR/DEBIAN/control"
 
 # 替换软件包大小
-app_size=$(du -sh --block-size=1k "$EXTRACTED_DIR" | awk '{print $1}')
+app_size=$(du -sh --block-size=1k "$DOWNLOAD_DIR/$EXTRACTED_DIR" | awk '{print $1}')
 sed -i "s/%TBD_PACKAGE_SIZE%/$app_size/g" "$INSTALL_DIR/DEBIAN/control"
 
 # 复制内容
-mv "$EXTRACTED_DIR" "$INSTALL_DIR/share/codium"
+mv "$DOWNLOAD_DIR/$EXTRACTED_DIR" "$INSTALL_DIR/share/codium"
 
 # 打包
 fakeroot dpkg -b "$INSTALL_DIR" "codium_$($version)_$($ARCH).deb"
