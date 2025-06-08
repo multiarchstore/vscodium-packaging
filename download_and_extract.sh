@@ -63,7 +63,7 @@ sed -i "s/%TBD_PACKAGE_SIZE%/$app_size/g" "$INSTALL_DIR/DEBIAN/control"
 mv "$DOWNLOAD_DIR/$EXTRACTED_DIR" "$INSTALL_DIR/usr/share/codium"
 
 # 打包
-fakeroot dpkg -b "$INSTALL_DIR" "codium_$($version)_$($ARCH).deb"
+fakeroot dpkg -b "$INSTALL_DIR" "codium_$(echo $version)_$(echo $ARCH).deb"
 
 
 
