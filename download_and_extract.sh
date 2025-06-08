@@ -60,7 +60,7 @@ app_size=$(du -sh --block-size=1k "$DOWNLOAD_DIR/$EXTRACTED_DIR" | awk '{print $
 sed -i "s/%TBD_PACKAGE_SIZE%/$app_size/g" "$INSTALL_DIR/DEBIAN/control"
 
 # 复制内容
-mv "$DOWNLOAD_DIR/$EXTRACTED_DIR" "$INSTALL_DIR/share/codium"
+mv "$DOWNLOAD_DIR/$EXTRACTED_DIR" "$INSTALL_DIR/usr/share/codium"
 
 # 打包
 fakeroot dpkg -b "$INSTALL_DIR" "codium_$($version)_$($ARCH).deb"
