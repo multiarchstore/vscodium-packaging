@@ -38,7 +38,7 @@ echo "Downloading VSCodium for $ARCH: $TARBALL_URL"
 wget "$TARBALL_URL" -O "$DOWNLOAD_DIR/$TARBALL"
 
 echo "Extracting to $DOWNLOAD_DIR/$EXTRACTED_DIR"
-tar -xzf $(realpath $DOWNLOAD_DIR/$TARBALL) -C "$EXTRACTED_DIR"
+tar -xzvf $DOWNLOAD_DIR/$TARBALL -C $(realpath "$EXTRACTED_DIR")
 
 # Create Temp Install Dir
 INSTALL_DIR=".install_dir"
