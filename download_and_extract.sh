@@ -65,6 +65,6 @@ mv "$DOWNLOAD_DIR/$EXTRACTED_DIR" "$INSTALL_DIR/usr/share/codium"
 # 打包
 fakeroot dpkg -b "$INSTALL_DIR" "codium_$(echo $version)_$(echo $ARCH).deb"
 
-
+echo "version=${version}" >> "$GITHUB_OUTPUT"
 
 
