@@ -22,7 +22,6 @@ jobs:
       - name: Build deb
         id: build_deb
         run: |
-          sudo dpkg --add-architecture loong64
           bash download_and_extract.sh loong64
 
 
