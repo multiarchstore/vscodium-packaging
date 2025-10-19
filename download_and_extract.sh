@@ -8,8 +8,11 @@ ARCH=$1
 # 下载缓存目录
 DOWNLOAD_DIR=".download_cache"
 
+# 获取tag
+VERSION_TAG=$(head -n 1 VERSION)
+
 # GitHub API 获取最新 release 的 URL
-GITHUB_API_URL="https://api.github.com/repos/VSCodium/vscodium/releases/latest"
+GITHUB_API_URL="https://api.github.com/repos/VSCodium/vscodium/releases/tags/${VERSION_TAG}"
 
 # 获取 JSON 数据
 RELEASE_JSON=$(curl -s -H "Accept: application/vnd.github.v3+json" "$GITHUB_API_URL")
