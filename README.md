@@ -107,10 +107,10 @@ To update the target VSCodium version:
 
 Example:
 ```bash
-# Replace X.Y.Z with the desired VSCodium version tag
-echo "X.Y.Z" > VERSION
+# Use the VSCodium release tag format (e.g., "1.95.3.24312")
+echo "1.95.3.24312" > VERSION
 git add VERSION
-git commit -m "Bump version to X.Y.Z"
+git commit -m "Bump version to 1.95.3.24312"
 git push
 ```
 
