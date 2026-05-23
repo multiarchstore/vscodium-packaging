@@ -9,7 +9,8 @@ ARCH=$1
 DOWNLOAD_DIR=".download_cache"
 
 # 获取tag
-VERSION_TAG=$(head -n 1 VERSION)
+# VERSION_TAG=$(head -n 1 VERSION)
+VERSION_TAG=$2
 
 # GitHub API 获取最新 release 的 URL
 GITHUB_API_URL="https://api.github.com/repos/VSCodium/vscodium/releases/tags/${VERSION_TAG}"

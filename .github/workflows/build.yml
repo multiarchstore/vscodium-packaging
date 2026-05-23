@@ -1,10 +1,12 @@
-name: Build Debian loong64 live cd
+name: Build vscodium loong64 deb
 
 on:
-  push:
-    tags:
-      - '*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'vscodium upstream version'
+        required: true
+        default: '1.116.02821'
 permissions:
   contents: write
 jobs:
@@ -22,8 +24,7 @@ jobs:
       - name: Build deb
         id: build_deb
         run: |
-          bash download_and_extract.sh loong64
-
+          bash download_and_extract.sh loong64 ${{ github.event.inputs.version }}
 
       - name: Artifact
         uses: actions/upload-artifact@v4
@@ -33,9 +34,28 @@ jobs:
           compression-level: 0
           if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
 
-      - name: Upload assets to release
-        uses: softprops/action-gh-release@v2
-        with:
-            files: ${{ github.workspace }}/*.deb
-            prerelease: false
-            tag_name: ${{ steps.build_deb.outputs.verfsion }}
+      - name: Check release
+        id: check_release
+        run: |
+          gh release view ${{ github.event.inputs.version }} -R ${{ github.repository }} >/dev/null 2>&1 && echo "create=0" >> $GITHUB_ENV || echo "create=1" >> $GITHUB_ENV
+
+      - name: Create release
+        if: env.create == '1'
+        run: |
+          latestFlag="--latest=true"
+          gh release create ${{ github.event.inputs.version }} -R ${{ github.repository }} --title ${{ github.event.inputs.version }} --notes "**Full Changelog**: [${{ github.event.inputs.version }}](https://github.com/VSCodium/vscodium/releases/tag/${{ github.event.inputs.version }})" ${latestFlag} || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          shopt -s nullglob
+          cd ${{ github.workspace }}/
+          files=(*.deb)
+          for i in "${files[@]}"; do
+            gh release upload  ${{ github.event.inputs.version }} $i --repo ${{ github.repository }}
+          done
