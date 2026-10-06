@@ -22,7 +22,7 @@ RELEASE_JSON=$(curl -s -H "Accept: application/vnd.github.v3+json" "$GITHUB_API_
 ASSET_URLS=$(echo "$RELEASE_JSON" | jq -r '.assets[].browser_download_url')
 
 # 筛选出包含当前架构且以 .tar.gz 结尾的下载链接
-TARBALL_URL=$(echo "$ASSET_URLS" | grep "VSCodium-linux-$ARCH" | grep "\.tar\.gz$")
+TARBALL_URL=$(echo "$ASSET_URLS" | grep "vscodium-reh-linux-$ARCH" | grep "\.tar\.gz$")
 
 # 检查是否找到匹配的 tarball
 if [ -z "$TARBALL_URL" ]; then
